@@ -1,0 +1,6 @@
+# niente file di test, agenti o scratch nella repo
+*.log
+*.tmp.js
+node_modules/
+__pycache__/
+*.pyc
