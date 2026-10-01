@@ -34,6 +34,19 @@ SignalRGB, con l'overlay del face/logo disegnato al centro, e non si può
 rimuovere. Il plugin legge invece il canvas dell'effetto con `device.color()`,
 così il risultato è pulito e a piena qualità.
 
+## In azione
+
+Il plugin in funzione sul deck, con l'effetto di SignalRGB letto dal canvas e
+scritto sul display a 480 × 288.
+
+<p align="center">
+  <video src="https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/demo.mp4"
+         poster="https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/demo-poster.jpg"
+         width="620" autoplay loop muted playsinline></video>
+</p>
+
+[▶ Scarica il video](https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/demo.mp4)
+
 ## Prestazioni / Performance
 
 Misurate su questo device, con gli script in `assets/`:
@@ -105,6 +118,7 @@ docs/TECHNICAL-EN.md                 technical notes
 assets/product.png                  foto del prodotto
 assets/brand/                        logo ufficiali SignalRGB e Razer
 assets/measure-*.py                  script di misura (richiedono SignalRGB chiuso)
+assets/demo.mp4, demo-poster.jpg     video di funzionamento e poster
 ```
 
 ## Crediti e licenze
