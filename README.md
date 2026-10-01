@@ -40,12 +40,12 @@ Il plugin in funzione sul deck, con l'effetto di SignalRGB letto dal canvas e
 scritto sul display a 480 × 288.
 
 <p align="center">
-  <video src="https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/demo.mp4"
-         poster="https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/demo-poster.jpg"
-         width="620" autoplay loop muted playsinline></video>
+  <video src="assets/demo.mp4"
+       poster="assets/demo-poster.jpg"
+       width="620" height="356"
+       controls autoplay loop muted playsinline>
+</video>
 </p>
-
-[▶ Scarica il video](https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/demo.mp4)
 
 ## Prestazioni / Performance
 
