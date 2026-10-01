@@ -2,6 +2,8 @@
 /*
  * Razer Stream Controller X  (RZ20-0479, USB VID_1532 PID_0D09, serial COM3)
  *
+ * SignalRGB plugin by Stargate Labs - https://github.com/StargateLabs
+ *
  * GEOMETRY
  *   The 15 keys are 5x3 tiles of ONE contiguous 480x288 framebuffer
  *   (480 = 5*96, 288 = 3*96). A single image therefore spans every key

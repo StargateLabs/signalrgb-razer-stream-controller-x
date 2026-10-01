@@ -78,3 +78,6 @@ the display may switch off for a few seconds: that is normal.
   canvas read path than the stock LCD plugins.
 - If SignalRGB updates in the future, check that the plugin is still present in
   the new version's folder.
+---
+
+Created by **[Stargate Labs](https://github.com/StargateLabs)**.

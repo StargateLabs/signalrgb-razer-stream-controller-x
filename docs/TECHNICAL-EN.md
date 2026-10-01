@@ -195,3 +195,6 @@ In `assets/`; they require **SignalRGB closed** (COM3 is exclusive):
   constants
 - [scottlaird/loupedeck](https://github.com/scottlaird/loupedeck) — independent
   confirmation of the refresh cycle
+---
+
+Created by **[Stargate Labs](https://github.com/StargateLabs)**.

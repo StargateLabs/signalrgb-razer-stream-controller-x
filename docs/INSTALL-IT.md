@@ -78,3 +78,6 @@ display può spegnersi per qualche secondo: è normale.
   lettura diverso rispetto ai plugin LCD standard.
 - Se in futuro aggiorni SignalRGB, ricontrolla che il plugin sia ancora nella
   cartella della nuova versione.
+---
+
+Creato da **[Stargate Labs](https://github.com/StargateLabs)**.

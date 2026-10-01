@@ -195,3 +195,6 @@ In `assets/`, richiedono **SignalRGB chiuso** (COM3 è in esclusiva):
 - [foxxyz/loupedeck](https://github.com/foxxyz/loupedeck) — protocollo e costanti
 - [scottlaird/loupedeck](https://github.com/scottlaird/loupedeck) — conferma
   indipendente del ciclo di refresh
+---
+
+Creato da **[Stargate Labs](https://github.com/StargateLabs)**.

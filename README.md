@@ -1,47 +1,79 @@
 <p align="center">
-  <img src="assets/icon.png" width="128" alt="SignalRGB RSCX" />
+  <img src="assets/icon.png" width="128" alt="SignalRGB plugin per Razer Stream Controller X" />
 </p>
 
-# SignalRGB plugin per Razer Stream Controller X
+<p align="center">
+  <img src="assets/brand/signalrgb-logo.svg" height="34" alt="SignalRGB" />
+  &nbsp;&nbsp;
+  <img src="assets/brand/razer-logo.svg" height="34" alt="Razer" />
+</p>
 
-Plugin SignalRGB per il Razer Stream Controller X (RZ20-0479), con supporto a
-**480 × 288 pixel reali**, qualità piena e nessun logo sovrapposto.
+<h1 align="center">SignalRGB plugin — Razer Stream Controller X</h1>
 
-Documentazione in italiano e inglese:
-
-- 🇮🇹 [docs/INSTALL-IT.md](docs/INSTALL-IT.md)
-- 🇬🇧 [docs/INSTALL-EN.md](docs/INSTALL-EN.md)
-- 🇮🇹 [docs/TECHNICAL-IT.md](docs/TECHNICAL-IT.md)
-- 🇬🇧 [docs/TECHNICAL-EN.md](docs/TECHNICAL-EN.md)
+<p align="center">
+  <strong>Full 480 × 288 native resolution, no logo overlay, bilingual IT/EN documentation.</strong>
+</p>
 
 ---
 
+<table>
+<tr><td align="center"><a href="docs/INSTALL-IT.md"><strong>🇮🇹 Installazione</strong></a></td>
+    <td align="center"><a href="docs/INSTALL-EN.md"><strong>🇬🇧 Installation</strong></a></td>
+    <td align="center"><a href="#prestazioni--performance">Prestazioni</a></td>
+    <td align="center"><a href="#come-funziona--how-it-works">Come funziona</a></td></tr>
+</table>
+
 ## Cos'è
 
-Il deck ha uno schermo LCD di 480 × 288 dietro a 15 tasti 5 × 3. Questo plugin
-legge l'effetto attivo in SignalRGB e lo trasferisce sul display del deck
-pixel per pixel, in RGB565.
+Il Razer Stream Controller X ha uno schermo LCD 480 × 288 dietro a 15 tasti
+5 × 3. Questo plugin legge l'effetto attivo in SignalRGB e lo trasferisce sul
+display del deck, pixel per pixel, in RGB565.
 
-Non usa `LCD.getFrame()` perché quel percorso passa dall'overlay composited di
-SignalRGB, che disegna il face/logo al centro e degrada l'immagine. Legge
-invece il canvas dell'effetto direttamente con `device.color()`, così il
-risultato è pulito e a piena qualità.
+**Non usa `LCD.getFrame()`.** Quel percorso restituisce il frame composited di
+SignalRGB, con l'overlay del face/logo disegnato al centro, e non si può
+rimuovere. Il plugin legge invece il canvas dell'effetto con `device.color()`,
+così il risultato è pulito e a piena qualità.
 
-## Prestazioni misurate
+## Prestazioni / Performance
 
-Su questo deck, misurate con `assets/misura-*.py` (richiedono SignalRGB chiuso):
+Misurate su questo device, con gli script in `assets/`:
 
 | Configurazione | fps |
 |---|---|
-| Plugin via SignalRGB | **3,6 - 4,6** |
+| **Plugin via SignalRGB** | **3,6 – 4,6** |
 | pyserial diretto, 8 frame in coda | 12,8 |
 | Bridge standalone pyserial | 20,8 |
 
-Il limite è il trasporto interno di SignalRGB, misurato in 2,3 - 2,5 MB/s
-contro gli 11,5 MB/s che pyserial ottiene sugli stessi byte dal cavo. Dettagli e
-prove in `docs/TECHNICAL-IT.md`.
+Il limite non è il plugin: è il trasporto interno di SignalRGB, misurato in
+2,3 – 2,5 MB/s contro gli 11,5 MB/s che pyserial ottiene sugli stessi byte
+dallo stesso cavo.
 
-## Installazione rapida
+| Measured | Value |
+|---|---|
+| SignalRGB `Serial.write` | 2,3 – 2,5 MB/s |
+| pyserial, same bytes | 11,5 MB/s |
+| Device refresh cycle | ~420 ms (fixed, does not scale with bytes) |
+| Frame queue depth used | 8 |
+
+## Come funziona / How it works
+
+Protocollo Loupedeck (WebSocket-over-serial), handshake `HTTP/1.1 101`.
+
+```
+FRAMEBUFF  0x10   pixel di un rettangolo
+DRAW       0x0f   mostra il framebuffer
+VERSION    0x07   versione firmware
+SERIAL     0x03   keep-alive
+```
+
+Ogni tasto da 96 × 96 costa 18.459 byte. Il plugin scrive solo i tasti cambiati,
+con una soglia di tolleranza sul rumore di dither, e mantiene una coda di frame
+allineata al ciclo di refresh del device.
+
+Protezioni: `BUDGET_BYTES` più grande del frame intero, così un push è sempre
+completo o assente, mai parziale. Senza, si vedrebbero strisce.
+
+## Installazione
 
 Copia `plugin/Razer_Stream_Controller_X.js` in:
 
@@ -49,23 +81,49 @@ Copia `plugin/Razer_Stream_Controller_X.js` in:
 %LOCALAPPDATA%\VortxEngine\app-<VERSIONE>\Signal-x64\Plugins\Razer\
 ```
 
-Poi riavvia SignalRGB. Istruzioni complete nelle guide.
+Poi riavvia SignalRGB.
 
-## Avvertenza
+> Synapse e Loupedeck non devono essere in esecuzione.
 
-Modificare il plugin provoca un reload con una pausa di handshake (~1 s) e il
-display può spegnersi per qualche secondo: è normale. Prima di ogni modifica,
-verifica con `node --check` e guarda il deck.
+Guida completa: [IT](docs/INSTALL-IT.md) · [EN](docs/INSTALL-EN.md)
 
-## Crediti
+## Documentazione tecnica
+
+Le misure, il protocollo, la curva di costo per write e i limiti verificati:
+
+- [TECHNICAL-IT.md](docs/TECHNICAL-IT.md)
+- [TECHNICAL-EN.md](docs/TECHNICAL-EN.md)
+
+## Struttura
+
+```
+plugin/Razer_Stream_Controller_X.js   il plugin
+docs/INSTALL-IT.md                   installazione, italiano
+docs/INSTALL-EN.md                   installation, english
+docs/TECHNICAL-IT.md                 protocollo, misure, limiti
+docs/TECHNICAL-EN.md                 technical notes
+assets/icon.svg, icon.png            icona del progetto
+assets/brand/                        logo ufficiali SignalRGB e Razer
+assets/measure-*.py                  script di misura (richiedono SignalRGB chiuso)
+```
+
+## Crediti e licenze
 
 Protocollo e riferimenti:
 
-- [foxxyz/loupedeck](https://github.com/foxxyz/loupedeck) — protocollo seriale
-  e costanti dei comandi
-- [scottlaird/loupedeck](https://github.com/scottlaird/loupedeck) — libreria Go,
-  conferma del ciclo di refresh del device
+- [foxxyz/loupedeck](https://github.com/foxxyz/loupedeck) — protocollo seriale e costanti dei comandi
+- [scottlaird/loupedeck](https://github.com/scottlaird/loupedeck) — conferma indipendente del ciclo di refresh
+- [Razer Stream Controller X](https://www.razer.com/pc/content-creation/controllers/razer-stream-controller-x) — scheda prodotto ufficiale
+
+I loghi SignalRGB e Razer appartengono ai rispettivi proprietari e sono usati
+solo per identificare l'hardware e il software a cui il plugin si riferisce.
 
 ## Licenza
 
-MIT.
+MIT — vedi [LICENSE](LICENSE).
+
+---
+
+<p align="center">
+  <strong>Created by <a href="https://github.com/StargateLabs">Stargate Labs</a></strong>
+</p>
