@@ -40,11 +40,11 @@ Il plugin in funzione sul deck, con l'effetto di SignalRGB letto dal canvas e
 scritto sul display a 480 × 288.
 
 <p align="center">
-  <video src="assets/demo.mp4"
-       poster="assets/demo-poster.jpg"
-       width="620" height="356"
-       controls autoplay loop muted playsinline>
-</video>
+<a href="https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/demo.mp4">
+<img src="https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/demo.gif" alt="Il plugin in funzione sul Razer Stream Controller X" width="620">
+</a>
+<br>
+<a href="https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/demo.mp4"><b>▶ Guarda il video completo (23 secondi)</b></a>
 </p>
 
 ## Prestazioni / Performance
@@ -118,7 +118,9 @@ docs/TECHNICAL-EN.md                 technical notes
 assets/product.png                  foto del prodotto
 assets/brand/                        logo ufficiali SignalRGB e Razer
 assets/measure-*.py                  script di misura (richiedono SignalRGB chiuso)
-assets/demo.mp4, demo-poster.jpg     video di funzionamento e poster
+assets/demo.gif                      animazione di funzionamento
+assets/demo.mp4                       video completo, 23 secondi
+assets/demo-poster.jpg                still del video
 ```
 
 ## Crediti e licenze
