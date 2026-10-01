@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon.png" width="128" alt="SignalRGB RSCX" />
+</p>
+
 # SignalRGB plugin per Razer Stream Controller X
 
 Plugin SignalRGB per il Razer Stream Controller X (RZ20-0479), con supporto a
