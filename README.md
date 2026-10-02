@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/brand/signalrgb-logo.svg" height="34" alt="SignalRGB" />
+  <img src="assets/brand/signalrgb-logo.svg" width="150" alt="SignalRGB" />
   &nbsp;&nbsp;
   <img src="assets/brand/razer-logo.svg" height="34" alt="Razer" />
 </p>
