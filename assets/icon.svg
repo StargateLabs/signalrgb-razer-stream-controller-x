@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="SignalRGB plugin per Razer Stream Controller X">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="deck" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2d333b"/>
+      <stop offset="100%" stop-color="#1c2128"/>
+    </linearGradient>
+    <linearGradient id="spec" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00b4d8"/>
+      <stop offset="25%" stop-color="#00e5a0"/>
+      <stop offset="50%" stop-color="#f5a623"/>
+      <stop offset="75%" stop-color="#ff4d6d"/>
+      <stop offset="100%" stop-color="#b14aff"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00b4d8"/>
+      <stop offset="55%" stop-color="#00e5a0"/>
+      <stop offset="100%" stop-color="#b14aff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="104" fill="url(#bg)"/>
+
+  <!-- corpo del deck -->
+  <rect x="76" y="162" width="360" height="226" rx="24" fill="url(#deck)" stroke="#3d444d" stroke-width="3"/>
+
+  <!-- striscia spettrale -->
+  <rect x="96" y="178" width="320" height="7" rx="3.5" fill="url(#spec)"/>
+
+  <!-- schermo: griglia 5x3 come i tasti, l'effetto la riempie -->
+  <g>
+    <!-- righe 1 e 3 -->
+    <rect x="100" y="200" width="312" height="52" rx="6" fill="#0a1015"/>
+    <!-- riga centrale con l'onda -->
+    <rect x="100" y="258" width="312" height="52" rx="6" fill="#080d11"/>
+    <path d="M108 284
+             L126 284 L132 268 L138 300 L144 274 L150 290 L156 284
+             L174 284 L180 258 L186 306 L192 272 L198 288 L204 284
+             L222 284 L228 262 L234 302 L240 276 L246 288 L252 284
+             L270 284 L276 254 L282 308 L288 270 L294 290 L300 284
+             L318 284 L324 266 L330 298 L336 274 L342 288 L348 284
+             L366 284 L372 262 L378 302 L384 272 L390 288 L396 284"
+          fill="none" stroke="url(#wave)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="100" y="316" width="312" height="52" rx="6" fill="#0a1015"/>
+  </g>
+
+  <!-- separazioni verticali dei tasti, sopra lo schermo, per far leggere la griglia 5x3 -->
+  <g fill="#2d333b" opacity="0.55">
+    <rect x="162" y="200" width="4" height="52" rx="2"/>
+    <rect x="225" y="200" width="4" height="52" rx="2"/>
+    <rect x="287" y="200" width="4" height="52" rx="2"/>
+    <rect x="350" y="200" width="4" height="52" rx="2"/>
+  </g>
+  <g fill="#00e5a0" opacity="0.30">
+    <rect x="162" y="258" width="4" height="52" rx="2"/>
+    <rect x="225" y="258" width="4" height="52" rx="2"/>
+    <rect x="287" y="258" width="4" height="52" rx="2"/>
+    <rect x="350" y="258" width="4" height="52" rx="2"/>
+    <rect x="162" y="316" width="4" height="52" rx="2"/>
+    <rect x="225" y="316" width="4" height="52" rx="2"/>
+    <rect x="287" y="316" width="4" height="52" rx="2"/>
+    <rect x="350" y="316" width="4" height="52" rx="2"/>
+  </g>
+</svg>
