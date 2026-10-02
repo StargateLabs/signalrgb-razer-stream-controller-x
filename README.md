@@ -8,7 +8,7 @@
   <img src="assets/brand/razer-logo.svg" height="34" alt="Razer" />
 </p>
 
-<h1 align="center">SignalRGB plugin — Razer Stream Controller X</h1>
+<h1 align="center">SignalRGB plugin per Razer Stream Controller X</h1>
 
 <p align="center">
   <strong>Full 480 × 288 native resolution, no logo overlay, bilingual IT/EN documentation.</strong>
@@ -128,16 +128,16 @@ assets/demo-poster.jpg                still del video
 
 Protocollo e riferimenti:
 
-- [foxxyz/loupedeck](https://github.com/foxxyz/loupedeck) — protocollo seriale e costanti dei comandi
-- [scottlaird/loupedeck](https://github.com/scottlaird/loupedeck) — conferma indipendente del ciclo di refresh
-- [Razer Stream Controller X](https://www.razer.com/pc/content-creation/controllers/razer-stream-controller-x) — scheda prodotto ufficiale
+- [foxxyz/loupedeck](https://github.com/foxxyz/loupedeck), protocollo seriale e costanti dei comandi
+- [scottlaird/loupedeck](https://github.com/scottlaird/loupedeck), conferma indipendente del ciclo di refresh
+- [Razer Stream Controller X](https://www.razer.com/pc/content-creation/controllers/razer-stream-controller-x), scheda prodotto ufficiale
 
 I loghi SignalRGB e Razer appartengono ai rispettivi proprietari e sono usati
 solo per identificare l'hardware e il software a cui il plugin si riferisce.
 
 ## Licenza
 
-MIT — vedi [LICENSE](LICENSE).
+MIT, vedi [LICENSE](LICENSE).
 
 ---
 
