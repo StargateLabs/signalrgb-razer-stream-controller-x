@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/product.png" width="380" alt="Razer Stream Controller X" />
+  <img src="assets/icon.svg" width="150" alt="SignalRGB plugin per Razer Stream Controller X" />
 </p>
 
 <p align="center">
@@ -115,6 +115,7 @@ docs/INSTALL-IT.md                   installazione, italiano
 docs/INSTALL-EN.md                   installation, english
 docs/TECHNICAL-IT.md                 protocollo, misure, limiti
 docs/TECHNICAL-EN.md                 technical notes
+assets/icon.svg, icon.png           icona del progetto
 assets/product.png                  foto del prodotto
 assets/brand/                        logo ufficiali SignalRGB e Razer
 assets/measure-*.py                  script di misura (richiedono SignalRGB chiuso)
