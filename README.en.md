@@ -18,7 +18,7 @@ Download the ZIP from [Releases](https://github.com/StargateLabs/signalrgb-razer
 
 ## Architecture and verification
 
-![Real hardware](assets/product.png)
+![Real hardware](assets/product-rounded.svg)
 
 Pixels → 96 × 96 rectangles → serial batch → one DRAW. Tests verify all **138,240 positions**, RGB565 bytes, unchanged-frame reuse and the 15 LCD-path rectangles. [Existing demo](assets/demo.mp4), recorded before this release.
 

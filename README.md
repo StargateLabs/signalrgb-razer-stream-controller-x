@@ -18,7 +18,7 @@ Scarica lo ZIP da [Releases](https://github.com/StargateLabs/signalrgb-razer-str
 
 ## Architettura e verifiche
 
-![Hardware reale](assets/product.png)
+![Hardware reale](assets/product-rounded.svg)
 
 Pixel → rettangoli 96 × 96 → batch seriale → un solo DRAW. Il test verifica tutte le **138.240 posizioni**, i byte RGB565, il riuso dei frame invariati e i 15 rettangoli del percorso LCD. [Demo esistente](assets/demo.mp4), registrata prima di questo rilascio.
 
