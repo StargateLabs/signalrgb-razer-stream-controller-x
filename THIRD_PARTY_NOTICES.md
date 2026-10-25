@@ -1,0 +1,2 @@
+# Third-party notices
+The existing repository MIT license is retained. Protocol references: [foxxyz/loupedeck](https://github.com/foxxyz/loupedeck) and [scottlaird/loupedeck](https://github.com/scottlaird/loupedeck). Existing product photography and Razer/SignalRGB marks are retained for identification; those assets are not relicensed under the source-code MIT license. Historical demo/measurement assets predate v1.1.0.

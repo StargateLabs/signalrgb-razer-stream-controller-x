@@ -1,0 +1,7 @@
+{
+  "name": "stargatelabs-stream-x",
+  "private": true,
+  "scripts": {
+    "test": "node plugin/test/streamx.test.mjs"
+  }
+}

@@ -1,83 +1,27 @@
-# Installation — Razer Stream Controller X
+# Installation — Stargate Labs
 
-## Requirements
+[Italiano](INSTALL-IT.md) · [README](../README.en.md)
 
-- SignalRGB 2.5.x (tested on 2.5.77)
-- Razer Stream Controller X (RZ20-0479)
-- The bundled USB cable, connected directly to the PC
+1. Exit SignalRGB. Exit Synapse/Loupedeck if they control the deck.
+2. Download and extract `stream-controller-x-v1.1.0.zip` from the release.
+3. Open PowerShell in the extracted directory and run:
 
-> Synapse and Loupedeck must **not** be running. They do not need to be
-> installed — stopping them is enough. If they are open they can take control of
-> the device and interfere.
-
-## 1. Copy the plugin
-
-Copy `Razer_Stream_Controller_X.js` into SignalRGB's plugin folder:
-
-```
-%LOCALAPPDATA%\VortxEngine\app-<VERSION>\Signal-x64\Plugins\Razer\
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-On Windows you can open the folder with `Win + R` and paste:
+The script installs into the actual Windows Documents folder under `WhirlwindFX\Plugins` and backs up an existing plugin. It does not modify SignalRGB's application directory.
 
-```
-%LOCALAPPDATA%\VortxEngine\
-```
+4. Restart SignalRGB, enable the device and select **Display Source → Canvas**.
+5. Position the deck in your effect layout. The plugin canvas is 480 × 288 pixels.
 
-Replace `<VERSION>` with your installed version (for example `app-2.5.77`).
+## Troubleshooting
 
-If the `Razer` folder does not exist, create it.
+- Device missing: check the data cable, Windows detection and port availability; close competing deck software.
+- Unexpected logo or image: choose Canvas rather than LCD.
+- Stutter: check CPU load and the Windows power plan first. Power saver substantially reduced smoothness in the lab; the installer never changes the power plan.
+- Do not run historical `assets/measure-*.py` scripts while SignalRGB controls the deck.
 
-## 2. Restart SignalRGB
+## Update and rollback
 
-Quit SignalRGB from the system tray and reopen it.
-
-The deck is detected automatically: `Razer Stream Controller X` should appear
-in SignalRGB's log.
-
-## 3. Verify
-
-Your effect should show on the deck. Check the log to confirm the plugin is
-writing:
-
-```
-%LOCALAPPDATA%\WhirlwindFX\SignalRgb\Logs\
-```
-
-Useful lines:
-
-```
-RSCX: handshake OK on attempt 1 -> HTTP/1.1 101 Switching Protocols
-RSCX: ready, first frame will follow
-RSCX: fps~4.3 ... 92306B/push
-```
-
-If `handshake OK` is present and `fps~` is increasing, the plugin works.
-
-## 4. If the display stays dark
-
-| Cause | Fix |
-|---|---|
-| Brightness at 0 | Raise the brightness slider in the device panel |
-| Effect not active | Activate any effect on the current profile |
-| Plugin not reloaded | Restart SignalRGB |
-| Other software on the device | Quit Synapse / Loupedeck / Stream Deck |
-
-## Updating the plugin
-
-Overwrite the file in the same folder and restart SignalRGB. Nothing to
-uninstall.
-
-Any change to the file triggers a reload with a pause of about 1 second, and
-the display may switch off for a few seconds: that is normal.
-
-## Notes
-
-- Resolution is fixed at **480 × 288** (the panel's native size).
-- The plugin does not draw SignalRGB's logo in the centre: it uses a different
-  canvas read path than the stock LCD plugins.
-- If SignalRGB updates in the future, check that the plugin is still present in
-  the new version's folder.
----
-
-Created by **[Stargate Labs](https://github.com/StargateLabs)**.
+Exit SignalRGB, retain your installed file and run the new release installer. To remove only this plugin: `powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 -Uninstall`. Restore the `.before-stargatelabs` backup manually by renaming it to `.js` after removing the new file.

@@ -2,21 +2,14 @@
 /*
  * Razer Stream Controller X  (RZ20-0479, USB VID_1532 PID_0D09, serial COM3)
  *
- * SignalRGB plugin by Stargate Labs - https://github.com/StargateLabs
- *
  * GEOMETRY
  *   The 15 keys are 5x3 tiles of ONE contiguous 480x288 framebuffer
  *   (480 = 5*96, 288 = 3*96). A single image therefore spans every key
  *   seamlessly, with no bezel gaps in the coordinate space.
  *
  * PIXEL PATH
- *   The effect canvas is sampled directly with device.color(x, y), one call
- *   per pixel, packed to RGB565 LE in code. LCD.getFrame() is deliberately NOT
- *   used: measured on this machine it returns a near-flat frame (19 distinct
- *   colors, 99% uniform 2x2 blocks) with the LCD face overlay composited in,
- *   and the Ultralight compositor behind it stalls ("Still stale after 60
- *   frames"), which produced the 1-second animation steps. device.color()
- *   reads the live effect canvas: full detail, no overlay, no logo.
+ *   LCD mode sends SignalRGB's complete 480x288 RGB565 display frame, including
+ *   the selected LCD face. Canvas mode retains the direct effect sampler.
  *
  * WIRE PROTOCOL (recovered from foxxyz/loupedeck, MIT: device.js + connections/serial.js)
  *   handshake : write a WebSocket upgrade raw; the device answers "HTTP/1.1 101 ..."
@@ -76,6 +69,11 @@ shutdownColor:readonly
 export function ControllableParameters() {
 	return [
 		{
+			"property": "DisplaySource", "group": "lighting", "label": "Display Source",
+			description: "LCD uses the native display and its selected face. Canvas samples the lighting effect directly.",
+			"type": "combobox", "values": ["Canvas", "LCD"], "default": "Canvas",
+		},
+		{
 			"property": "DeckBrightness", "group": "lighting", "label": "Deck Brightness",
 			description: "Screen brightness on the device itself. 0 turns the keys off.",
 			"type": "number", "min": "0", "max": "10", "step": "1", "default": "10",
@@ -125,6 +123,10 @@ function getDeckBrightness() {
 
 function getLightingMode() {
 	return String(readSetting(() => LightingMode, "Canvas")) === "Forced" ? "Forced" : "Canvas";
+}
+
+function getDisplaySource() {
+	return String(readSetting(() => DisplaySource, "Canvas")) === "LCD" ? "LCD" : "Canvas";
 }
 
 function getForcedColor() {
@@ -362,7 +364,7 @@ let frameOut = null;
 function writeRaw(bytes) {
 	const t = Date.now();
 	if (BRIDGE && frameOut) frameOut(bytes);
-	else Serial.write(Array.isArray(bytes) ? bytes : Array.from(bytes));
+	else Serial.write(Array.isArray(bytes) ? bytes : Array.prototype.slice.call(bytes));
 	const d = Date.now() - t;
 	perf.writeMs += d;
 	perf.writeCalls++;
@@ -486,8 +488,9 @@ let batch = null;
 let batchUsed = 0;
 
 function batchPush(bytes) {
-	if (!batch) { batch = new Array(BUDGET_BYTES); batchUsed = 0; }
-	for (let i = 0; i < bytes.length; i++) batch[batchUsed++] = bytes[i];
+	if (!batch) { batch = new Uint8Array(BUDGET_BYTES); batchUsed = 0; }
+	batch.set(bytes, batchUsed);
+	batchUsed += bytes.length;
 	return bytes.length;
 }
 
@@ -528,15 +531,14 @@ function maybeDrain() {
 
 function batchFlush() {
 	if (!batch || batchUsed === 0) return;
-	batch.length = batchUsed;
-	writeRaw(batch);
+	writeRaw(batch.subarray(0, batchUsed));
 	batch = null;
 }
 
 
 
 function pushRect(frame, x, y, w, h) {
-  if (!batch) { batch = new Array(BUDGET_BYTES); batchUsed = 0; }
+  if (!batch) { batch = new Uint8Array(BUDGET_BYTES); batchUsed = 0; }
   const len = 13 + w * h * 2;
   const header = [0x82, 0xff, 0, 0, 0, 0,
     (len >>> 24) & 255, (len >>> 16) & 255, (len >>> 8) & 255, len & 255,
@@ -544,10 +546,16 @@ function pushRect(frame, x, y, w, h) {
     DISPLAY_ID[0], DISPLAY_ID[1], (x >>> 8) & 255, x & 255,
     (y >>> 8) & 255, y & 255, (w >>> 8) & 255, w & 255,
     (h >>> 8) & 255, h & 255];
-  for (let i = 0; i < header.length; i++) batch[batchUsed++] = header[i];
+  batch.set(header, batchUsed);
+  batchUsed += header.length;
   for (let row = 0; row < h; row++) {
     const from = ((y + row) * FULL_W + x) * 2;
-    for (let i = 0; i < w * 2; i++) batch[batchUsed++] = frame[from + i];
+    if (typeof frame.subarray === "function") {
+      batch.set(frame.subarray(from, from + w * 2), batchUsed);
+      batchUsed += w * 2;
+    } else {
+      for (let i = 0; i < w * 2; i++) batch[batchUsed++] = frame[from + i];
+    }
   }
   perf.rects++;
   return 10 + w * h * 2;
@@ -790,6 +798,8 @@ function bringUp() {
 }
 
 export function Initialize() {
+	LCD.initialize({ width: FULL_W, height: FULL_H });
+	state.lcdFrameInvalid = false;
 	if (typeof device.setFrameRateTarget === "function") device.setFrameRateTarget(60);
 	state.lastFrame = null;
 	state.coarseLast = null;
@@ -850,6 +860,11 @@ export function Render() {
 		if (getLightingMode() === "Forced") {
 			state.sampledKeys = null;
 			frame = solidFrame(getForcedColor());
+		} else if (getDisplaySource() === "LCD") {
+			const t0 = Date.now();
+			frame = sampleLCDFrame();
+			state.sampleMs = Date.now() - t0;
+			if (!frame) return;
 		} else if (RSCX_MODE === 2) {
 			// Mode 2: sample the canvas at 240x144 and upscale 2x to 480x288.
 			// One device.color() read per 2x2 block, so 34560 reads instead of
@@ -1046,6 +1061,39 @@ function copyKey(out, from, keyIndex) {
 // Two-tier sampling: coarse pass over all keys (~2ms) to find what moved,
 // then full-resolution sampling only for changed keys. Unchanged keys are
 // copied from the last pushed frame.
+function sampleLCDFrame() {
+	let tiles;
+	try {
+		const screens = [];
+		for (let k = 0; k < KEYS; k++) {
+			const rect = keyRect(k);
+			screens.push({ x: rect.x, y: rect.y, width: KEY_PX, height: KEY_PX,
+				outputWidth: KEY_PX, outputHeight: KEY_PX, format: "RGB565" });
+		}
+		tiles = LCD.getSlicedFrame({ screens, format: "RGB565", arrayBuffer: true, changedOnly: false });
+	} catch (_) { tiles = null; }
+	if (!tiles || tiles.length !== KEYS) {
+		if (!state.lcdFrameInvalid) device.log("RSCX: waiting for fifteen native 96x96 LCD tiles", { toFile: true });
+		state.lcdFrameInvalid = true;
+		return null;
+	}
+	const frame = new Uint8Array(FRAME_BYTES);
+	for (let k = 0; k < KEYS; k++) {
+		const tile = new Uint8Array(tiles[k]);
+		if (tile.length !== KEY_BYTES) return null;
+		const rect = keyRect(k);
+		for (let row = 0; row < KEY_PX; row++) {
+			const start = row * KEY_PX * 2;
+			frame.set(tile.subarray(start, start + KEY_PX * 2), ((rect.y + row) * FULL_W + rect.x) * 2);
+		}
+	}
+	if (state.lcdFrameInvalid) device.log("RSCX: LCD frame available again", { toFile: true });
+	state.lcdFrameInvalid = false;
+	state.sampledKeys = null;
+	state.lastSelectiveKeys = KEYS;
+	return frame;
+}
+
 function sampleCanvasSelective() {
 	state.renderCount = (state.renderCount || 0) + 1;
 	state.sampledKeys = new Array(KEYS).fill(false);
