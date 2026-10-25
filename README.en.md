@@ -4,6 +4,8 @@
 
 <p align="center"><img src="assets/brand/razer-logo.svg" alt="razer" height="30"> &nbsp; <img src="assets/brand/signalrgb-logo.svg" alt="signalrgb" height="30"></p>
 
+<p align="center"><a href="https://stargatelabs.github.io/signalrgb-razer-stream-controller-x/index-en.html"><b>Project showcase ↗</b></a> &nbsp; · &nbsp; <a href="https://github.com/StargateLabs/signalrgb-razer-stream-controller-x/releases"><b>Download</b></a></p>
+
 # Razer Stream Controller X
 
 Turn the deck into a continuous SignalRGB effect surface: **480 × 288 native pixels** across all 15 keys, with no logo added by the plugin. This lab release preserves the accepted Canvas sampling path and optimizes USB transfer preparation.
