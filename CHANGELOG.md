@@ -5,3 +5,7 @@
 - Full pixel and USB payload regression checks included.
 - Persistent Documents plugin installation, rollback and bilingual troubleshooting.
 - Historical 420 ms / queue-depth claims replaced by scoped current measurements.
+
+## 2026-10-26 · Device thumbnail
+
+Real product thumbnail in SignalRGB. Replaces the generic USB-drive image; display transport unchanged.

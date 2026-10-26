@@ -53,7 +53,7 @@ export function Type() { return "serial"; }
 export function DeviceType() { return "lcd"; }
 export function SubdeviceController() { return true; }
 export function Validate(endpoint) { return endpoint.interface === 0; }
-export function ImageUrl() { return "https://assets.signalrgb.com/devices/default/misc/usb-drive-render.png"; }
+export function ImageUrl() { return "https://raw.githubusercontent.com/StargateLabs/signalrgb-razer-stream-controller-x/main/assets/product.png"; }
 
 // Only one process can hold the serial port at a time.
 export function ConflictingProcesses() {
