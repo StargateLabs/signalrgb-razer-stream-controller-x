@@ -1,6 +1,6 @@
 <p align="center"><img src="assets/hero.svg" alt="Stargate Labs — Razer Stream Controller X" width="100%"></p>
 
-<p align="center"><b>STARGATE LABS · SIGNALRGB INTEGRATIONS</b><br>[Italiano](README.md) · [English](README.en.md) · [Installazione IT](docs/INSTALL-IT.md) · [Installation EN](docs/INSTALL-EN.md)</p>
+<p align="center"><b>STARGATE LABS · SIGNALRGB INTEGRATIONS</b><br><a href="README.md">Italiano</a> · <a href="README.en.md">English</a> · <a href="docs/INSTALL-IT.md">Installazione IT</a> · <a href="docs/INSTALL-EN.md">Installation EN</a></p>
 
 <p align="center"><img src="assets/brand/razer-logo.svg" alt="razer" height="30"> &nbsp; <img src="assets/brand/signalrgb-logo.svg" alt="signalrgb" height="30"></p>
 
